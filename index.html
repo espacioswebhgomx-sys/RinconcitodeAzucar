@@ -445,6 +445,19 @@
     <input type="text" id="nombre" placeholder="Nombre y Apellido">
 
     <input type="tel" id="telefono" placeholder="Teléfono de contacto">
+    
+    <textarea id="comentarios"
+placeholder="Nota o comentarios para tu pedido..."
+style="
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:1px solid #ccc;
+min-height:120px;
+resize:none;
+font-size:15px;
+"></textarea>
 
     <div id="listaProductos"></div>
 
@@ -453,6 +466,12 @@
       <option value="domicilio">Enviar a domicilio</option>
       <option value="sucursal">Recoger en sucursal</option>
     </select>
+
+    <select id="metodoPago">
+  <option value="">Seleccione método de pago</option>
+  <option value="Efectivo">Efectivo</option>
+  <option value="Transferencia">Transferencia</option>
+</select>
 
     <div id="extraEntrega"></div>
 
@@ -531,12 +550,27 @@
 
     // ===== FECHA =====
 
-    let fecha = new Date();
+function actualizarReloj(){
 
-    document.getElementById("fecha")
-    .innerHTML =
-    "Fecha: " + fecha.toLocaleDateString() +
-    " | Hora: " + fecha.toLocaleTimeString();
+  let fecha = new Date();
+
+  let fechaActual =
+    fecha.toLocaleDateString();
+
+  let horaActual =
+    fecha.toLocaleTimeString();
+
+  document.getElementById("fecha")
+  .innerHTML =
+  "Fecha: " + fechaActual +
+  " | Hora: " + horaActual;
+}
+
+// actualizar inmediatamente
+actualizarReloj();
+
+// actualizar cada segundo
+setInterval(actualizarReloj, 1000);
 
     // ===== TICKET =====
 
@@ -606,6 +640,12 @@
       let telefono =
       document.getElementById("telefono").value;
 
+      let comentarios =
+document.getElementById("comentarios").value;
+
+      let metodoPago =
+document.getElementById("metodoPago").value;
+
       let mensaje =
 `🍰 *RINCONCITO DE AZÚCAR*
 
@@ -618,6 +658,12 @@
 ${carrito.map(p => `- ${p.nombre} $${p.precio}`).join('\n')}
 
 💰 Total: $${total}
+
+💳 Método de pago:
+${metodoPago}
+
+📝 Nota/Comentarios:
+${comentarios}
 
 📅 ${fecha.toLocaleDateString()}
 ⏰ ${fecha.toLocaleTimeString()}
