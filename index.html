@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rinconcito de Azúcar</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins', sans-serif;
+    }
+
+    body{
+      background:#ffd9e8;
+      overflow-x:hidden;
+      color:#5c2b39;
+    }
+
+    /* ===== CARRUSEL ===== */
+
+    .hero{
+      width:100%;
+      height:90vh;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .slides{
+      width:600%;
+      height:100%;
+      display:flex;
+      animation:slide 25s infinite;
+    }
+
+    .slides img{
+      width:100vw;
+      height:100%;
+      object-fit:cover;
+    }
+
+    @keyframes slide{
+      0%{transform:translateX(0);}
+      15%{transform:translateX(0);}
+      20%{transform:translateX(-100vw);}
+      35%{transform:translateX(-100vw);}
+      40%{transform:translateX(-200vw);}
+      55%{transform:translateX(-200vw);}
+      60%{transform:translateX(-300vw);}
+      75%{transform:translateX(-300vw);}
+      80%{transform:translateX(-400vw);}
+      95%{transform:translateX(-400vw);}
+      100%{transform:translateX(0);}
+    }
+
+    .hero-text{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      text-align:center;
+      background:rgba(255,255,255,0.6);
+      padding:25px;
+      border-radius:20px;
+      backdrop-filter: blur(10px);
+      box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .hero-text h1{
+      font-size:4rem;
+      color:#ff4f8b;
+    }
+
+    .hero-text p{
+      margin-top:10px;
+      font-size:1.3rem;
+      font-weight:500;
+    }
+
+    /* ===== LIBRO ===== */
+
+    .book-container{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      margin:80px auto;
+      perspective:2500px;
+    }
+
+    .book{
+      width:350px;
+      height:500px;
+      position:relative;
+      transform-style:preserve-3d;
+    }
+
+    .page{
+      width:100%;
+      height:100%;
+      position:absolute;
+      transform-origin:left;
+      transition:1s;
+      cursor:pointer;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .page img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .page.flipped{
+      transform:rotateY(-180deg);
+    }
+
+    /* ===== BOTON FLOTANTE ===== */
+
+    .menu-btn{
+      position:fixed;
+      bottom:25px;
+      right:25px;
+      width:70px;
+      height:70px;
+      border-radius:50%;
+      border:none;
+      background:#ff4f8b;
+      color:white;
+      font-size:30px;
+      cursor:pointer;
+      box-shadow:0 8px 20px rgba(0,0,0,0.3);
+      z-index:999;
+    }
+
+    .menu-panel{
+      position:fixed;
+      right:-450px;
+      top:0;
+      width:420px;
+      height:100%;
+      background:white;
+      padding:25px;
+      overflow-y:auto;
+      transition:.5s;
+      z-index:998;
+      box-shadow:-10px 0 30px rgba(0,0,0,0.2);
+    }
+
+    .menu-panel.active{
+      right:0;
+    }
+
+    .menu-panel h2{
+      margin-bottom:20px;
+      color:#ff4f8b;
+    }
+
+    .categoria{
+      margin-bottom:30px;
+    }
+
+    .categoria h3{
+      background:#ffb6cc;
+      padding:10px;
+      border-radius:10px;
+      margin-bottom:10px;
+    }
+
+    .producto{
+      background:#fff0f5;
+      padding:15px;
+      margin-bottom:10px;
+      border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .producto button{
+      margin-top:10px;
+      background:#ff4f8b;
+      border:none;
+      color:white;
+      padding:8px 15px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    /* ===== TICKET ===== */
+
+    .ticket{
+      width:90%;
+      max-width:700px;
+      background:white;
+      margin:50px auto;
+      padding:30px;
+      border-radius:20px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .ticket h2{
+      text-align:center;
+      color:#ff4f8b;
+      margin-bottom:20px;
+    }
+
+    .ticket input,
+    .ticket select{
+      width:100%;
+      padding:12px;
+      margin:10px 0;
+      border-radius:10px;
+      border:1px solid #ccc;
+    }
+
+    .ticket button{
+      background:#25D366;
+      color:white;
+      border:none;
+      padding:12px 20px;
+      border-radius:10px;
+      cursor:pointer;
+      width:100%;
+      margin-top:15px;
+      font-size:16px;
+    }
+
+    .maps-btn{
+      background:#ff4f8b !important;
+    }
+
+    .total{
+      font-size:1.3rem;
+      margin-top:15px;
+      font-weight:bold;
+      color:#ff4f8b;
+    }
+
+    .footer{
+      text-align:center;
+      padding:40px;
+      color:#7a4b5b;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== CARRUSEL ===== -->
+
+  <section class="hero">
+    <div class="slides">
+      <img src="img/portada1.jpg">
+      <img src="img/menu1.jpg">
+      <img src="img/menu2.jpg">
+      <img src="img/menu3.jpg">
+      <img src="img/menu4.jpg">
+      <img src="img/portada2.jpg">
+    </div>
+
+    <div class="hero-text">
+      <h1>Rinconcito de Azúcar</h1>
+      <p>
+        “Cada postre cuenta una historia dulce hecha con amor.”
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== LIBRO ===== -->
+
+  <section class="book-container">
+    <div class="book">
+
+      <div class="page" style="z-index:7">
+        <img src="img/portada1.jpg">
+      </div>
+
+      <div class="page" style="z-index:6">
+        <img src="img/menu1.jpg">
+      </div>
+
+      <div class="page" style="z-index:5">
+        <img src="img/menu2.jpg">
+      </div>
+
+      <div class="page" style="z-index:4">
+        <img src="img/menu3.jpg">
+      </div>
+
+      <div class="page" style="z-index:3">
+        <img src="img/menu4.jpg">
+      </div>
+
+      <div class="page" style="z-index:2">
+        <img src="img/menu5.jpg">
+      </div>
+
+      <div class="page" style="z-index:1">
+        <img src="img/portada2.jpg">
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== BOTON MENU ===== -->
+
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+  <div class="menu-panel" id="menuPanel">
+
+    <h2>Menú Dulce</h2>
+
+    <!-- GALLETAS -->
+    <div class="categoria">
+      <h3>🍪 Galletas y Snacks</h3>
+
+      <div class="producto">
+        <strong>Cartola de limón</strong><br>
+        Precio: $25<br>
+        Porción: Vasito<br>
+        Delicioso postre cremoso con un toque cítrico refrescante.
+        <button onclick="agregarProducto('Cartola de limón',25)">Agregar</button>
+      </div>
+
+      <div class="producto">
+        <strong>Besitos de nuez</strong><br>
+        Precio: $25<br>
+        Porción: Bolsita<br>
+        Dulces suaves con nuez natural y sabor casero.
+        <button onclick="agregarProducto('Besitos de nuez',25)">Agregar</button>
+      </div>
+
+      <div class="producto">
+        <strong>Besitos en vaso con moño</strong><br>
+        Precio: $35<br>
+        Presentación elegante ideal para regalo.
+        <button onclick="agregarProducto('Besitos en vaso con moño',35)">Agregar</button>
+      </div>
+
+      <div class="producto">
+        <strong>Galletas chispas chocolate</strong><br>
+        Precio: $25<br>
+        Porción: Bolsita<br>
+        Crujientes por fuera y suaves por dentro.
+        <button onclick="agregarProducto('Galletas chispas chocolate',25)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- PAYS -->
+    <div class="categoria">
+      <h3>🍓 Pays</h3>
+
+      <div class="producto">
+        <strong>Pay individual</strong><br>
+        Precio: $45<br>
+        Sabor fresa o zarzamora.<br>
+        Cheesecake artesanal cremoso y fresco.
+        <button onclick="agregarProducto('Pay individual',45)">Agregar</button>
+      </div>
+
+      <div class="producto">
+        <strong>Pay para 15 personas</strong><br>
+        Precio: $220<br>
+        Ideal para reuniones y celebraciones.
+        <button onclick="agregarProducto('Pay para 15 personas',220)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- CUPCAKES -->
+    <div class="categoria">
+      <h3>🧁 Cupcakes</h3>
+
+      <div class="producto">
+        <strong>Cupcake clásico</strong><br>
+        Precio: $16<br>
+        Vainilla, chocolate o red velvet.
+        <button onclick="agregarProducto('Cupcake clásico',16)">Agregar</button>
+      </div>
+
+      <div class="producto">
+        <strong>Cupcake relleno</strong><br>
+        Precio: $18<br>
+        Chocolate, cajeta, fresa o zarzamora.
+        <button onclick="agregarProducto('Cupcake relleno',18)">Agregar</button>
+      </div>
+
+      <div class="producto">
+        <strong>Cupcake con fruta</strong><br>
+        Precio: $20<br>
+        Decorado con fruta fresca.
+        <button onclick="agregarProducto('Cupcake con fruta',20)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- PASTELES -->
+    <div class="categoria">
+      <h3>🎂 Pasteles</h3>
+
+      <div class="producto">
+        <strong>Pastel helado</strong><br>
+        Precio: $255<br>
+        Para 15 personas.<br>
+        Refrescante y cremoso.
+        <button onclick="agregarProducto('Pastel helado',255)">Agregar</button>
+      </div>
+
+      <div class="producto">
+        <strong>Pastel Red Velvet</strong><br>
+        Precio: $420<br>
+        Para 20 personas.<br>
+        Elegante y delicioso.
+        <button onclick="agregarProducto('Pastel Red Velvet',420)">Agregar</button>
+      </div>
+
+      <div class="producto">
+        <strong>Pastel Zanahoria</strong><br>
+        Precio: $370<br>
+        Para 15 personas.<br>
+        Especias suaves y nuez natural.
+        <button onclick="agregarProducto('Pastel Zanahoria',370)">Agregar</button>
+      </div>
+
+      <div class="producto">
+        <strong>Pastel chocolate y vainilla</strong><br>
+        Precio: $390<br>
+        Incluye fruta fresca.
+        <button onclick="agregarProducto('Pastel chocolate y vainilla',390)">Agregar</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===== TICKET ===== -->
+
+  <section class="ticket">
+
+    <h2>🧾 Ticket de Pedido</h2>
+
+    <p><strong>Pastelería:</strong> Rinconcito de Azúcar</p>
+
+    <input type="text" id="nombre" placeholder="Nombre y Apellido">
+
+    <input type="tel" id="telefono" placeholder="Teléfono de contacto">
+
+    <div id="listaProductos"></div>
+
+    <select id="entrega" onchange="mostrarOpcionesEntrega()">
+      <option value="">Seleccione método de entrega</option>
+      <option value="domicilio">Enviar a domicilio</option>
+      <option value="sucursal">Recoger en sucursal</option>
+    </select>
+
+    <div id="extraEntrega"></div>
+
+    <p id="fecha"></p>
+    <p id="ticket"></p>
+
+    <p class="total" id="total"></p>
+
+    <button onclick="enviarWhatsApp()">
+      Confirmar pedido vía WhatsApp
+    </button>
+
+  </section>
+
+  <div class="footer">
+    © 2026 Rinconcito de Azúcar 🍓
+  </div>
+
+  <script>
+
+    // ===== EFECTO LIBRO =====
+
+    const pages = document.querySelectorAll(".page");
+
+    pages.forEach((page, index)=>{
+      page.addEventListener("click", ()=>{
+        page.classList.toggle("flipped");
+        page.style.zIndex = index;
+      });
+    });
+
+    // ===== MENU =====
+
+    function toggleMenu(){
+      document.getElementById("menuPanel")
+      .classList.toggle("active");
+    }
+
+    // ===== PRODUCTOS =====
+
+    let carrito = [];
+    let total = 0;
+
+    function agregarProducto(nombre, precio){
+
+      carrito.push({nombre, precio});
+      total += precio;
+
+      actualizarTicket();
+    }
+
+    function actualizarTicket(){
+
+      let lista = document.getElementById("listaProductos");
+
+      lista.innerHTML = "";
+
+      carrito.forEach((producto)=>{
+
+        lista.innerHTML += `
+          <div style="
+            background:#fff0f5;
+            padding:10px;
+            margin-top:10px;
+            border-radius:10px;
+          ">
+            <strong>${producto.nombre}</strong><br>
+            Precio: $${producto.precio}
+          </div>
+        `;
+      });
+
+      document.getElementById("total")
+      .innerHTML = "Total: $" + total;
+    }
+
+    // ===== FECHA =====
+
+    let fecha = new Date();
+
+    document.getElementById("fecha")
+    .innerHTML =
+    "Fecha: " + fecha.toLocaleDateString() +
+    " | Hora: " + fecha.toLocaleTimeString();
+
+    // ===== TICKET =====
+
+    let numeroTicket =
+      Math.floor(Math.random()*999999);
+
+    document.getElementById("ticket")
+    .innerHTML = "Ticket No. #" + numeroTicket;
+
+    // ===== ENTREGA =====
+
+    function mostrarOpcionesEntrega(){
+
+      let valor =
+      document.getElementById("entrega").value;
+
+      let extra =
+      document.getElementById("extraEntrega");
+
+      if(valor === "domicilio"){
+
+        extra.innerHTML = `
+          <button class="maps-btn"
+          onclick="compartirUbicacion()">
+          Compartir ubicación
+          </button>
+        `;
+
+      }else if(valor === "sucursal"){
+
+        extra.innerHTML = `
+          <a href="https://maps.google.com"
+          target="_blank">
+            <button class="maps-btn">
+            Ver ubicación
+            </button>
+          </a>
+        `;
+
+      }else{
+        extra.innerHTML = "";
+      }
+    }
+
+    // ===== UBICACION =====
+
+    function compartirUbicacion(){
+
+      navigator.geolocation.getCurrentPosition(
+        (position)=>{
+
+          alert(
+            "Ubicación compartida correctamente"
+          );
+
+        }
+      );
+    }
+
+    // ===== WHATSAPP =====
+
+    function enviarWhatsApp(){
+
+      let nombre =
+      document.getElementById("nombre").value;
+
+      let telefono =
+      document.getElementById("telefono").value;
+
+      let mensaje =
+`🍰 *RINCONCITO DE AZÚCAR*
+
+🧾 Ticket #${numeroTicket}
+
+👤 Cliente: ${nombre}
+📞 Teléfono: ${telefono}
+
+🛍 Productos:
+${carrito.map(p => `- ${p.nombre} $${p.precio}`).join('\n')}
+
+💰 Total: $${total}
+
+📅 ${fecha.toLocaleDateString()}
+⏰ ${fecha.toLocaleTimeString()}
+`;
+
+      let url =
+`https://wa.me/527711173029?text=${encodeURIComponent(mensaje)}`;
+
+      window.open(url, "_blank");
+    }
+
+  </script>
+
+</body>
+</html>
