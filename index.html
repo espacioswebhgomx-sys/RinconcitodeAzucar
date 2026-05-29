@@ -552,7 +552,62 @@
         <input type="checkbox" id="extraPay">
         🍰 Agregar pay (+$45)
       </label>
+<br><br>
 
+<!-- TEMA -->
+
+<label>🎀 Tema del desayuno:</label><br>
+
+<select id="tema"
+style="
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+">
+  <option>Romántico</option>
+  <option>Cumpleaños</option>
+  <option>Amistad</option>
+  <option>Sorpresa</option>
+  <option>Graduación</option>
+</select>
+
+<br><br>
+
+<!-- COLOR -->
+
+<label>🎨 Color decorativo:</label><br>
+
+<select id="colorDecorativo"
+style="
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+">
+  <option>Rosa pastel</option>
+  <option>Rojo</option>
+  <option>Dorado</option>
+  <option>Azul</option>
+  <option>Negro elegante</option>
+</select>
+
+<br><br>
+
+<!-- DEDICATORIA -->
+
+<label>💌 Dedicatoria:</label><br>
+
+<textarea id="dedicatoria"
+placeholder="Escribe tu mensaje especial..."
+style="
+  width:100%;
+  padding:10px;
+  min-height:100px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  resize:none;
+"></textarea>
+
+      
     </div>
 
     <br>
@@ -695,6 +750,18 @@ function agregarDesayuno(){
   let dulce =
   document.getElementById("dulce").value;
 
+
+  let tema =
+document.getElementById("tema").value;
+
+let colorDecorativo =
+document.getElementById("colorDecorativo").value;
+
+let dedicatoria =
+document.getElementById("dedicatoria").value;
+
+  
+
   let extraPay =
   document.getElementById("extraPay").checked;
 
@@ -718,6 +785,13 @@ function agregarDesayuno(){
 🥐 Pan: ${pan}
 
 🍫 Dulce: ${dulce}
+
+🎀 Tema: ${tema}
+
+🎨 Color decorativo: ${colorDecorativo}
+
+💌 Dedicatoria:
+${dedicatoria}
 
 ${extraPay ? '🍰 Incluye pay extra (+$45)' : '❌ Sin pay extra'}
 `;
