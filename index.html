@@ -439,7 +439,7 @@
 
     </div>
 
-    <!-- DESAYUNO SORPRESA -->
+ <!-- DESAYUNO SORPRESA -->
 
 <div class="categoria">
 
@@ -449,35 +449,123 @@
 
     <strong>Desayuno Sorpresa Personalizado</strong><br><br>
 
-    💰 Precio: $399<br>
+    💰 Precio base: $399<br>
     🚚 Envío a domicilio con costo extra.<br>
     ✨ Todo es completamente personalizado.<br>
     🍰 Agrega un pay por solo $45 extra.<br><br>
 
-    <strong>Incluye:</strong><br>
+    <!-- BOTON PERSONALIZAR -->
 
-    🥤 Jugo o café frío<br>
-    🍪 Galletas de chispas de chocolate o besitos de nuez<br>
-    🍓 Fruta fresca<br>
-    🥐 Sándwich o cuernito<br>
-    🍮 Gelatina<br>
-    🥄 Yogurt<br>
-    🍟 Papitas de hojuela<br>
-    🍫 Chocolate o dulce de su preferencia<br><br>
+    <button onclick="mostrarPersonalizacion()"
+    style="
+      background:#ff9dbd;
+      border:none;
+      color:white;
+      padding:10px 15px;
+      border-radius:10px;
+      cursor:pointer;
+      margin-bottom:15px;
+    ">
+      ✨ Personaliza tu pedido
+    </button>
 
-    Un detalle perfecto para sorprender con dulzura y amor en cualquier ocasión. 💖
+    <!-- PANEL PERSONALIZADO -->
 
-    <br><br>
+    <div id="personalizacionDesayuno"
+    style="
+      display:none;
+      margin-top:15px;
+      background:#fff7fa;
+      padding:15px;
+      border-radius:12px;
+    ">
 
-    <button onclick="agregarProducto('Desayuno Sorpresa',399)">
+      <!-- BEBIDA -->
+
+      <label>🥤 Bebida:</label><br>
+
+      <select id="bebida"
+      style="
+        width:100%;
+        padding:10px;
+        margin-top:5px;
+      ">
+        <option>Jugo</option>
+        <option>Café frío</option>
+      </select>
+
+      <br><br>
+
+      <!-- SNACK -->
+
+      <label>🍪 Snack:</label><br>
+
+      <select id="snack"
+      style="
+        width:100%;
+        padding:10px;
+        margin-top:5px;
+      ">
+        <option>Galletas chispas chocolate</option>
+        <option>Besitos de nuez</option>
+      </select>
+
+      <br><br>
+
+      <!-- PAN -->
+
+      <label>🥐 Pan:</label><br>
+
+      <select id="pan"
+      style="
+        width:100%;
+        padding:10px;
+        margin-top:5px;
+      ">
+        <option>Sándwich</option>
+        <option>Cuernito</option>
+      </select>
+
+      <br><br>
+
+      <!-- DULCE -->
+
+      <label>🍫 Dulce:</label><br>
+
+      <select id="dulce"
+      style="
+        width:100%;
+        padding:10px;
+        margin-top:5px;
+      ">
+        <option>Chocolate</option>
+        <option>Mazapán</option>
+        <option>Gomitas</option>
+        <option>Dulce enchilado</option>
+      </select>
+
+      <br><br>
+
+      <!-- EXTRA PAY -->
+
+      <label>
+        <input type="checkbox" id="extraPay">
+        🍰 Agregar pay (+$45)
+      </label>
+
+    </div>
+
+    <br>
+
+    <!-- BOTON AGREGAR -->
+
+    <button onclick="agregarDesayuno()">
       Agregar
     </button>
 
   </div>
 
 </div>
-
-  </div>
 
   <!-- ===== TICKET ===== -->
 
@@ -574,6 +662,77 @@ pages.forEach((page, index) => {
       document.getElementById("menuPanel")
       .classList.toggle("active");
     }
+
+    function mostrarPersonalizacion(){
+
+  let panel =
+  document.getElementById("personalizacionDesayuno");
+
+  if(panel.style.display === "none"){
+
+    panel.style.display = "block";
+
+  }else{
+
+    panel.style.display = "none";
+  }
+}
+
+
+// ===== AGREGAR DESAYUNO =====
+
+function agregarDesayuno(){
+
+  let bebida =
+  document.getElementById("bebida").value;
+
+  let snack =
+  document.getElementById("snack").value;
+
+  let pan =
+  document.getElementById("pan").value;
+
+  let dulce =
+  document.getElementById("dulce").value;
+
+  let extraPay =
+  document.getElementById("extraPay").checked;
+
+  let precio = 399;
+
+  // SUMAR PAY EXTRA
+
+  if(extraPay){
+    precio += 45;
+  }
+
+  // DESCRIPCION DEL PEDIDO
+
+  let descripcion =
+`🎁 Desayuno Sorpresa Personalizado
+
+🥤 Bebida: ${bebida}
+
+🍪 Snack: ${snack}
+
+🥐 Pan: ${pan}
+
+🍫 Dulce: ${dulce}
+
+${extraPay ? '🍰 Incluye pay extra (+$45)' : '❌ Sin pay extra'}
+`;
+
+  // AGREGAR AL CARRITO
+
+  carrito.push({
+    nombre: descripcion,
+    precio: precio
+  });
+
+  total += precio;
+
+  actualizarTicket();
+}
 
     // ===== PRODUCTOS =====
 
@@ -689,12 +848,14 @@ pages.forEach((page, index) => {
 
             <div style="flex:1; text-align:center;">
 
-              <strong style="
-                font-size:16px;
-                color:#5c2b39;
-              ">
-                ${producto.nombre}
-              </strong>
+            <div style="
+  font-size:15px;
+  color:#5c2b39;
+  white-space:pre-line;
+  text-align:left;
+">
+  ${producto.nombre}
+</div>
 
               <br>
 
