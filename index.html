@@ -1068,19 +1068,48 @@ document.getElementById("comentarios").value;
 
       let metodoPago =
 document.getElementById("metodoPago").value;
+      let entrega =
+document.getElementById("entrega").value;
+
+let fecha = new Date();
+
+let fechaActual =
+fecha.toLocaleDateString();
+
+let horaActual =
+fecha.toLocaleTimeString();
+
+let ticket =
+Math.floor(Math.random()*99999);
+      
+      let productosTexto = "";
+
+carrito.forEach((producto)=>{
+
+  productosTexto +=
+`${producto.nombre}
+
+💲Precio: $${producto.precio}
+
+-------------------------
+
+`;
+});
 
       let mensaje =
-`🍰 *RINCONCITO DE AZÚCAR*
 
-🧾 Ticket #${numeroTicket}
+`🎂 *Rinconcito de Azúcar*
 
-👤 Cliente: ${nombre}
-📞 Teléfono: ${telefono}
+🧾 Ticket de compra
 
-🛍 Productos:
-${carrito.map(p => `- ${p.nombre} $${p.precio}`).join('\n')}
+👤 Nombre:
+${nombre}
 
-💰 Total: $${total}
+📞 Teléfono:
+${telefono}
+
+🛍️ Productos:
+${productosTexto}
 
 💳 Método de pago:
 ${metodoPago}
@@ -1088,9 +1117,19 @@ ${metodoPago}
 📝 Nota/Comentarios:
 ${comentarios}
 
-📅 ${fecha.toLocaleDateString()}
-⏰ ${fecha.toLocaleTimeString()}
-`;
+📍 Entrega:
+${entrega}
+
+💰 Total:
+$${total}
+
+📅 Fecha:
+${fechaActual}
+
+🕒 Hora:
+${horaActual}
+
+🎟️ Ticket #${ticket}`;
 
       let url =
 `https://wa.me/527711173029?text=${encodeURIComponent(mensaje)}`;
